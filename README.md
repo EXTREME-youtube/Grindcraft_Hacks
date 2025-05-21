@@ -1,4 +1,4 @@
-# Grindcraft Hacks  
+# ⚡ Grindcraft Hacks  
 **By: ERXTREME**  
 
 ## 🏆 Tired of Grinding? Level Up Instantly!  
@@ -29,3 +29,8 @@ Follow these simple steps to unlock the hack:
 
 ## 🆕 Updates  
 This hack is **still improving**—expect new features and updates soon! Stay tuned for the latest tweaks.  
+
+---
+
+## 📝 License  
+This project is licensed under the **MIT License**.
