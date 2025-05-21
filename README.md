@@ -1,4 +1,4 @@
-# ⚡ Grindcraft Hacks  
+# 📜 Grindcraft Hacks  
 **By: ERXTREME**  
 
 ## 🏆 Tired of Grinding? Level Up Instantly!  
