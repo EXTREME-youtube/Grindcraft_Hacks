@@ -1,6 +1,10 @@
 # Grindcraft Hacks  
 **By: ERXTREME**  
 
+##Are You a noob at Grindcraft well we got you
+![Image Description](IMGS/)
+
+
 ## How to Use  
 1. Download the `Hacks.json` file.  
 2. Open the **Settings** menu.  
