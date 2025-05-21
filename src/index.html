@@ -41,7 +41,7 @@
 
         @keyframes zoomIn {
             from { transform: scale(0.8); }
-            to { transform: scale(1); }
+            to { transform: 1; } /* Corrected 'scale(1)' to '1' for shorthand */
         }
 
         /* Buttons */
@@ -89,6 +89,30 @@
             box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
             transition: 0.3s ease-in-out;
         }
+
+        /* New Section Styling */
+        .section {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.3);
+        }
+
+        .section h2 {
+            color: #ffcc00;
+            font-size: 2em;
+            text-shadow: 0 0 10px #ffcc00;
+        }
+
+        .section p, .section ol {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .section ol li {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -104,14 +128,12 @@
             <li class="hover-glow">🛠️ Encoded Save Files</li>
         </ul>
 
-        <!-- Buttons -->
         <a href="Hacks.json" class="button">📥 Download Hacks</a>
         <a href="https://github.com/EXTREME-youtube/Grindcraft_Hacks" class="button github-btn">🔗 Get That Hack from GitHub</a>
 
-        <!-- New Sections -->
         <div class="section hover-expand">
             <h2>🔍 What We Do</h2>
-            <p>Grindcraft Hacks lets players **skip the grind** and focus on the fun.  
+            <p>Grindcraft Hacks lets players **skip the grind** and focus on the fun. 
             We modify game save files to unlock **resources**, **boost** progress, and **customize** gameplay.</p>
         </div>
 
