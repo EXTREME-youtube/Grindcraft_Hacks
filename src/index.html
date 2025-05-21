@@ -4,16 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔥 Grindcraft Hacks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Cool Background */
+        /* Custom styles for animations and specific overrides not easily done with Tailwind */
         body {
-            font-family: 'Arial', sans-serif;
-            background: radial-gradient(circle, #0f0f0f, #1a1a1a);
-            color: #ddd;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-            animation: fadeIn 1.5s ease-in-out;
+            font-family: 'Inter', sans-serif; /* Apply Inter font globally */
+            background: radial-gradient(circle at center, rgba(15, 15, 15, 0.8) 0%, rgba(26, 26, 26, 0.9) 70%, rgba(0, 0, 0, 1) 100%),
+                        linear-gradient(to bottom right, #0a0a0a, #1a1a1a); /* Darker, more dynamic background */
+            background-attachment: fixed; /* Keep background fixed during scroll */
+            animation: fadeIn 1.5s ease-in-out; /* Fade-in animation for the body */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            position: relative; /* Needed for canvas positioning */
+        }
+
+        /* Full-screen Canvas for Particle Background */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2; /* Ensure it's behind everything */
+            pointer-events: none; /* Allow clicks to pass through */
+        }
+
+        /* Loading Overlay Styles */
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95); /* Dark, semi-transparent background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999; /* High z-index to cover everything */
+            opacity: 1;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+            visibility: visible;
+        }
+
+        #loadingOverlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none; /* Disable interaction once hidden */
+        }
+
+        .loading-spinner {
+            border: 8px solid rgba(255, 255, 255, 0.2);
+            border-top: 8px solid #ffcc00; /* Yellow spinner */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1.2s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            color: #ffcc00; /* Yellow text */
+            font-size: 1.8em;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @keyframes fadeIn {
@@ -21,113 +81,593 @@
             to { opacity: 1; }
         }
 
-        /* Text Effects */
-        h1 {
-            color: #ffcc00;
-            font-size: 3em;
-            text-shadow: 0 0 20px #ffcc00;
-        }
-
-        /* Sections */
-        .container {
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(255, 204, 0, 0.5);
-            animation: zoomIn 1s ease-in-out;
-        }
-
         @keyframes zoomIn {
             from { transform: scale(0.8); }
             to { transform: scale(1); }
         }
 
-        /* Buttons */
-        .button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 15px 25px;
-            font-size: 1.2em;
-            font-weight: bold;
-            background: #ffcc00;
-            color: #000;
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px rgba(255, 204, 0, 0.4); }
+            50% { box-shadow: 0 0 45px rgba(255, 204, 0, 1.2); } /* More intense pulse */
+            100% { box-shadow: 0 0 15px rgba(255, 204, 0, 0.4); }
+        }
+
+        @keyframes flickerGlow {
+            0%, 100% { text-shadow: 0 0 40px rgba(255, 204, 0, 1.2), 0 0 70px rgba(255, 204, 0, 0.8); opacity: 1; }
+            50% { text-shadow: 0 0 30px rgba(255, 204, 0, 0.9), 0 0 50px rgba(255, 204, 0, 0.5); opacity: 0.9; }
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(80px); opacity: 0; } /* Slide further up */
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; } /* Pop from smaller */
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Custom glow effect for text, as Tailwind's text-shadow is limited */
+        .text-glow-yellow {
+            animation: flickerGlow 2.5s infinite alternate ease-in-out; /* Apply flicker glow */
+        }
+
+        /* Custom shadow for the container, as Tailwind's box-shadow is limited */
+        .shadow-glow-yellow {
+            animation: pulseGlow 3.5s infinite alternate ease-in-out; /* Pulsing glow animation */
+        }
+
+        /* Custom shadow for buttons on hover */
+        .button-shadow-hover {
+            box-shadow: 0 0 40px rgba(255, 204, 0, 2); /* Even more pronounced button glow */
+        }
+
+        /* Custom shadow for GitHub button on hover */
+        .github-button-shadow-hover {
+            box-shadow: 0 0 40px rgba(255, 255, 255, 1.5); /* Stronger GitHub button glow */
+        }
+
+        /* Button shimmer effect */
+        .button-shimmer {
+            background-size: 200% 100%;
+            background-image: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+            transition: background-position 0.5s ease;
+        }
+        .button-shimmer:hover {
+            animation: shimmer 1.5s infinite linear;
+        }
+
+        /* Styles for the enhanced temporary message box */
+        .message-box {
+            position: fixed;
+            top: 30px; /* Slightly lower */
+            left: 50%;
+            transform: translateX(-50%) translateY(-150px); /* Start further off-screen above */
+            background-color: rgba(0, 0, 0, 0.98); /* Even darker, more opaque background */
+            color: white;
+            padding: 25px 50px; /* More padding */
+            border-radius: 30px; /* More rounded corners */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8); /* Stronger shadow */
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.9s ease-out, transform 0.9s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Smoother, bouncier transition */
+            font-size: 1.6em; /* Larger text */
+            font-weight: 900; /* Even bolder */
+            display: flex;
+            align-items: center;
+            gap: 20px; /* More space between icon and text */
+            border: 6px solid; /* Thicker border for success/error distinction */
+            min-width: 320px; /* Ensure minimum width */
+            text-align: center;
+            justify-content: center;
+        }
+        .message-box.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0); /* Slide into view */
+        }
+        .message-box.success {
+            background: linear-gradient(45deg, #2ecc71, #27ae60); /* Brighter green gradient for success */
+            border-color: #27ae60;
+        }
+        .message-box.error {
+            background: linear-gradient(45deg, #e74c3c, #c0392b); /* Brighter red gradient for error */
+            border-color: #c0392b;
+        }
+        .message-box i {
+            font-size: 2em; /* Larger icons */
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); /* Subtle icon glow */
+        }
+
+        /* Section Divider */
+        .section-divider {
+            width: 80%;
+            height: 4px; /* Thicker divider */
+            background: linear-gradient(to right, transparent, rgba(255, 204, 0, 0.7), transparent); /* Brighter glow */
+            margin: 50px auto; /* More margin */
             border-radius: 5px;
-            text-decoration: none;
-            box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
-            transition: 0.3s;
+            opacity: 0.8;
+            animation: pulseGlow 5s infinite alternate ease-in-out; /* Divider also pulses */
         }
 
-        .button:hover {
-            background: #e6b800;
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(255, 204, 0, 1);
+        /* MIT License Popup Styles */
+        .mit-popup-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95); /* Even darker, more opaque backdrop */
+            backdrop-filter: blur(10px); /* More blur effect */
+            z-index: 1001; /* Above other content, below popup */
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+            display: flex; /* Use flex to center the popup */
+            justify-content: center;
+            align-items: center;
+            visibility: hidden; /* Hidden by default */
+        }
+        .mit-popup-backdrop.show {
+            opacity: 1;
+            visibility: visible;
         }
 
-        /* GitHub Button */
-        .github-btn {
-            background: #333;
-            color: #fff;
-            margin-left: 10px;
+        .mit-popup-content {
+            background-color: #1a1a1a; /* Dark background */
+            border: 4px solid #007bff; /* Thicker blue border for MIT theme */
+            border-radius: 25px;
+            box-shadow: 0 0 50px rgba(0, 123, 255, 0.8); /* More intense blue glow shadow */
+            padding: 50px;
+            max-width: 900px; /* Wider popup */
+            width: 95%; /* Responsive width */
+            max-height: 90vh; /* Max height to allow scrolling */
+            overflow-y: auto; /* Enable scrolling for long content */
+            color: #e0e0e0;
+            position: relative;
+            transform: translateY(-70px); /* Start slightly above center */
+            opacity: 0;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .mit-popup-backdrop.show .mit-popup-content {
+            opacity: 1;
+            transform: translateY(0); /* Slide into center */
         }
 
-        .github-btn:hover {
-            background: #555;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        .mit-popup-content h3 {
+            font-size: 3em; /* Larger title */
+            font-weight: 900;
+            color: #007bff; /* Blue for title */
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(0, 123, 255, 0.9); /* Title glow */
         }
 
-        /* Hover Effects */
-        .hover-glow:hover {
-            color: #ffcc00;
-            text-shadow: 0 0 10px #ffcc00;
-            transition: 0.3s ease-in-out;
+        .mit-popup-content pre {
+            background-color: #0d0d0d;
+            border: 2px solid #444; /* Thicker border */
+            padding: 25px;
+            border-radius: 12px;
+            white-space: pre-wrap; /* Preserve whitespace and wrap text */
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 1em; /* Slightly larger code text */
+            line-height: 1.7;
+            color: #c0c0c0; /* Lighter code text */
+            max-height: 450px; /* Limit height for preformatted text */
+            overflow-y: auto; /* Scroll for long license text */
+            margin-bottom: 30px;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
         }
 
-        .hover-expand:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
-            transition: 0.3s ease-in-out;
+        .mit-popup-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #dc3545; /* Red close button */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px; /* Larger close button */
+            height: 45px;
+            font-size: 1.8em; /* Larger icon */
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(220, 53, 69, 0.9);
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .mit-popup-close-btn:hover {
+            background-color: #c82333;
+            transform: scale(1.15) rotate(180deg); /* More dramatic rotate on hover */
+            box-shadow: 0 0 25px rgba(220, 53, 69, 1.2);
         }
     </style>
 </head>
-<body>
-
-    <h1>⚡ Grindcraft Hacks</h1>
-
-    <div class="container">
-        <p>Skip the grind and level up **instantly** with our powerful hacks!</p>
-        
-        <ul>
-            <li class="hover-glow">🔥 Instant Progress Boost</li>
-            <li class="hover-glow">🚀 Pre-Unlocked Items</li>
-            <li class="hover-glow">🛠️ Encoded Save Files</li>
-        </ul>
-
-        <!-- Buttons -->
-        <a href="Hacks.json" class="button">📥 Download Hacks</a>
-        <a href="https://github.com/EXTREME-youtube/Grindcraft_Hacks" class="button github-btn">🔗 Get That Hack from GitHub</a>
-
-        <!-- New Sections -->
-        <div class="section hover-expand">
-            <h2>🔍 What We Do</h2>
-            <p>Grindcraft Hacks lets players **skip the grind** and focus on the fun.  
-            We modify game save files to unlock **resources**, **boost** progress, and **customize** gameplay.</p>
-        </div>
-
-        <div class="section hover-expand">
-            <h2>🚀 How to Use the Hack</h2>
-            <p>Follow these steps to get started:</p>
-            <ol>
-                <li class="hover-glow">📥 **Download** the Hacks.json file.</li>
-                <li class="hover-glow">⚙️ Open Grindcraft and go to **Settings**.</li>
-                <li class="hover-glow">💾 Select **Load Game** and choose Hacks.json.</li>
-                <li class="hover-glow">🎮 Enjoy **instant upgrades** and enhanced gameplay!</li>
-            </ol>
-        </div>
-
-        <p>💡 Want to learn more? Check out the <a href="FAQ.html">FAQ</a> and <a href="FEATURES.html">Features</a> pages!</p>
+<body class="text-gray-100 min-h-screen flex flex-col">
+    <div id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">LOADING...</div>
     </div>
 
+    <canvas id="particleCanvas"></canvas>
+
+    <div id="page-wrapper" class="flex-grow flex flex-col items-center p-8 md:p-10">
+        <h1 class="text-yellow-400 text-8xl md:text-9xl font-extrabold mb-14 text-glow-yellow tracking-tighter drop-shadow-lg animate-flickerGlow mx-auto">
+            ⚡ Grindcraft Hacks
+        </h1>
+
+        <div class="container bg-gray-900 bg-opacity-95 p-12 md:p-16 rounded-3xl shadow-glow-yellow max-w-6xl w-full animate-zoomIn border border-gray-700 relative overflow-hidden mx-auto">
+            <div class="absolute inset-0 bg-gradient-to-br from-gray-800/10 to-transparent pointer-events-none z-0"></div>
+            <div class="relative z-10">
+                <p class="text-3xl mb-12 leading-relaxed text-gray-300 font-semibold text-center animate-slideInUp animate-delay-100">
+                    Skip the grind and level up <strong class="text-yellow-300 font-black">instantly</strong> with our powerful hacks!
+                </p>
+
+                <ul class="list-none p-0 mb-14 space-y-6 text-left mx-auto max-w-2xl">
+                    <li class="text-3xl font-semibold text-gray-200 hover:text-yellow-400 hover:text-glow-yellow transition-all duration-300 flex items-center gap-5 py-3 px-6 rounded-xl hover:bg-gray-700/40 transform hover:translate-x-3 hover:shadow-lg hover:shadow-yellow-500/20 animate-popIn animate-delay-200">
+                        <i class="fas fa-fire text-yellow-500 text-4xl"></i> <span>Instant Progress Boost</span>
+                    </li>
+                    <li class="text-3xl font-semibold text-gray-200 hover:text-yellow-400 hover:text-glow-yellow transition-all duration-300 flex items-center gap-5 py-3 px-6 rounded-xl hover:bg-gray-700/40 transform hover:translate-x-3 hover:shadow-lg hover:shadow-blue-500/20 animate-popIn animate-delay-300">
+                        <i class="fas fa-rocket text-blue-400 text-4xl"></i> <span>Pre-Unlocked Items</span>
+                    </li>
+                    <li class="text-3xl font-semibold text-gray-200 hover:text-yellow-400 hover:text-glow-yellow transition-all duration-300 flex items-center gap-5 py-3 px-6 rounded-xl hover:bg-gray-700/40 transform hover:translate-x-3 hover:shadow-lg hover:shadow-green-500/20 animate-popIn animate-delay-400">
+                        <i class="fas fa-tools text-green-400 text-4xl"></i> <span>Encoded Save Files</span>
+                    </li>
+                </ul>
+
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-10 mb-16 animate-slideInUp animate-delay-500">
+                    <button id="downloadHacksBtn"
+                       class="button bg-gradient-to-r from-yellow-500 to-yellow-600 text-gray-900 px-14 py-7 rounded-2xl text-4xl font-black shadow-xl hover:from-yellow-600 hover:to-yellow-700 hover:scale-105 button-shadow-hover transition-all duration-300 transform active:scale-95 focus:outline-none focus:ring-4 focus:ring-yellow-300 flex items-center gap-5 button-shimmer">
+                        <i class="fas fa-download"></i> <span>Download Hacks</span>
+                    </button>
+                    <a href="https://github.com/EXTREME-youtube/Grindcraft_Hacks" target="_blank" rel="noopener noreferrer"
+                       class="button bg-gradient-to-r from-gray-700 to-gray-800 text-white px-14 py-7 rounded-2xl text-4xl font-black shadow-xl hover:from-gray-600 hover:to-gray-700 hover:scale-105 github-button-shadow-hover transition-all duration-300 transform active:scale-95 focus:outline-none focus:ring-4 focus:ring-gray-600 flex items-center gap-5 button-shimmer">
+                        <i class="fab fa-github"></i> <span>Get That Hack from GitHub</span>
+                    </a>
+                </div>
+
+                <div class="section-divider animate-popIn animate-delay-600"></div>
+
+                <div class="section bg-gray-800 bg-opacity-70 p-12 rounded-3xl mb-14 hover:scale-[1.005] hover:shadow-xl hover:shadow-yellow-600/50 transition-all duration-300 border border-gray-700 relative overflow-hidden animate-slideInUp animate-delay-700">
+                    <div class="absolute inset-0 bg-gradient-to-br from-gray-700/15 to-transparent pointer-events-none z-0"></div>
+                    <div class="relative z-10">
+                        <h2 class="text-6xl font-extrabold text-yellow-400 mb-8 flex items-center justify-center gap-5 tracking-tight">
+                            <i class="fas fa-search"></i> <span>What We Do</span>
+                        </h2>
+                        <p class="text-2xl leading-relaxed text-gray-300 text-center">
+                            Grindcraft Hacks lets players <strong class="text-yellow-300 font-black">skip the grind</strong> and focus on the fun.
+                            We modify game save files to unlock <strong class="text-yellow-300 font-black">resources</strong>, <strong class="text-yellow-300 font-black">boost</strong> progress, and <strong class="text-yellow-300 font-black">customize</strong> gameplay.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="section-divider animate-popIn animate-delay-800"></div>
+
+                <div class="section bg-gray-800 bg-opacity-70 p-12 rounded-3xl mb-14 hover:scale-[1.005] hover:shadow-xl hover:shadow-yellow-600/50 transition-all duration-300 border border-gray-700 relative overflow-hidden animate-slideInUp animate-delay-900">
+                    <div class="absolute inset-0 bg-gradient-to-br from-gray-700/15 to-transparent pointer-events-none z-0"></div>
+                    <div class="relative z-10">
+                        <h2 class="text-6xl font-extrabold text-yellow-400 mb-8 flex items-center justify-center gap-5 tracking-tight">
+                            <i class="fas fa-cogs"></i> <span>How to Use the Hack</span>
+                        </h2>
+                        <p class="text-2xl mb-10 leading-relaxed text-gray-300 text-center">Follow these steps to get started:</p>
+                        <ol class="list-decimal list-inside space-y-6 text-left pl-10 text-gray-200">
+                            <li class="hover:text-yellow-400 hover:text-glow-yellow transition-all duration-300 flex items-start gap-5 py-2 animate-popIn animate-delay-1000">
+                                <span class="font-black text-yellow-300 text-3xl">1.</span> <span><strong class="text-yellow-300">📥 Download</strong> the Hacks.json file.</span>
+                            </li>
+                            <li class="hover:text-yellow-400 hover:text-glow-yellow transition-all duration-300 flex items-start gap-5 py-2 animate-popIn animate-delay-1100">
+                                <span class="font-black text-yellow-300 text-3xl">2.</span> <span><strong class="text-yellow-300">⚙️ Open</strong> Grindcraft and go to <strong class="text-yellow-300">Settings</strong>.</span>
+                            </li>
+                            <li class="hover:text-yellow-400 hover:text-glow-yellow transition-all duration-300 flex items-start gap-5 py-2 animate-popIn animate-delay-1200">
+                                <span class="font-black text-yellow-300 text-3xl">3.</span> <span><strong class="text-yellow-300">💾 Select Load Game</strong> and choose Hacks.json.</span>
+                            </li>
+                            <li class="hover:text-yellow-400 hover:text-glow-yellow transition-all duration-300 flex items-start gap-5 py-2 animate-popIn animate-delay-1300">
+                                <span class="font-black text-yellow-300 text-3xl">4.</span> <span><strong class="text-yellow-300">🎮 Enjoy instant upgrades</strong> and enhanced gameplay!</span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="section-divider animate-popIn animate-delay-1400"></div>
+
+                <div class="section bg-gray-800 bg-opacity-70 p-12 rounded-3xl mb-14 hover:scale-[1.005] hover:shadow-xl hover:shadow-red-600/30 transition-all duration-300 border border-gray-700 relative overflow-hidden animate-slideInUp animate-delay-1500">
+                    <div class="absolute inset-0 bg-gradient-to-br from-red-700/10 to-transparent pointer-events-none z-0"></div>
+                    <div class="relative z-10">
+                        <h2 class="text-6xl font-extrabold text-red-400 mb-8 flex items-center justify-center gap-5 tracking-tight">
+                            <i class="fas fa-exclamation-triangle"></i> <span>Disclaimer</span>
+                        </h2>
+                        <p class="text-xl leading-relaxed text-gray-300 text-center">
+                            This tool is provided for educational and entertainment purposes only.
+                            Use at your own risk. We are not responsible for any issues that may arise from its use,
+                            including but not limited to game bans, data loss, or system instability.
+                            Always back up your game data before using any third-party tools.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="section-divider animate-popIn animate-delay-1600"></div>
+
+                <div class="section bg-gray-800 bg-opacity-70 p-12 rounded-3xl mb-14 hover:scale-[1.005] hover:shadow-xl hover:shadow-blue-600/30 transition-all duration-300 border border-gray-700 relative overflow-hidden animate-slideInUp animate-delay-1700">
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-700/10 to-transparent pointer-events-none z-0"></div>
+                    <div class="relative z-10">
+                        <h2 class="text-6xl font-extrabold text-blue-400 mb-8 flex items-center justify-center gap-5 tracking-tight">
+                            <i class="fas fa-file-contract"></i> <span>MIT License</span>
+                        </h2>
+                        <p class="text-xl leading-relaxed text-gray-300 text-center mb-6">
+                            This project is open-source and distributed under the MIT License.
+                            Click below to read the full license text.
+                        </p>
+                        <button id="openMitLicenseBtn"
+                           class="inline-block bg-blue-600 text-white px-8 py-4 rounded-lg text-xl font-bold hover:bg-blue-700 transition-colors duration-300 shadow-md hover:shadow-lg">
+                            Read the Full MIT License
+                        </button>
+                    </div>
+                </div>
+
+                <div class="section-divider animate-popIn animate-delay-1800"></div>
+
+                <div class="section bg-gray-800 bg-opacity-70 p-12 rounded-3xl mb-14 hover:scale-[1.005] hover:shadow-xl hover:shadow-purple-600/30 transition-all duration-300 border border-gray-700 relative overflow-hidden animate-slideInUp animate-delay-1900">
+                    <div class="absolute inset-0 bg-gradient-to-br from-purple-700/10 to-transparent pointer-events-none z-0"></div>
+                    <div class="relative z-10">
+                        <h2 class="text-6xl font-extrabold text-purple-400 mb-8 flex items-center justify-center gap-5 tracking-tight">
+                            <i class="fas fa-share-alt"></i> <span>Connect with Me!</span>
+                        </h2>
+                        <p class="text-xl leading-relaxed text-gray-300 text-center mb-10">
+                            Want to see more of my projects and content? Follow me on my social platforms!
+                        </p>
+                        <div class="flex flex-col sm:flex-row justify-center items-center gap-8">
+                            <a href="https://www.youtube.com/@extreme-1234" target="_blank" rel="noopener noreferrer"
+                               class="button bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-4 rounded-xl text-2xl font-bold shadow-lg hover:from-red-700 hover:to-red-800 hover:scale-105 transition-all duration-300 transform active:scale-95">
+                                <i class="fab fa-youtube text-3xl"></i> <span>YouTube</span>
+                            </a>
+                            <a href="https://www.tiktok.com/@yourtiktokhandle" target="_blank" rel="noopener noreferrer"
+                               class="button bg-gradient-to-r from-gray-700 to-gray-800 text-white px-8 py-4 rounded-xl text-2xl font-bold shadow-lg hover:from-gray-600 hover:to-gray-700 hover:scale-105 transition-all duration-300 transform active:scale-95">
+                                <i class="fab fa-tiktok text-3xl"></i> <span>TikTok</span>
+                            </a>
+                            <a href="https://github.com/EXTREME-youtube" target="_blank" rel="noopener noreferrer"
+                               class="button bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-xl text-2xl font-bold shadow-lg hover:from-blue-700 hover:to-blue-800 hover:scale-105 transition-all duration-300 transform active:scale-95">
+                                <i class="fab fa-github text-3xl"></i> <span>GitHub</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-divider animate-popIn animate-delay-2000"></div>
+
+                <p class="text-2xl mt-14 text-gray-300 text-center animate-slideInUp animate-delay-2100">
+                    💡 Want to learn more? Check out the
+                    <a href="https://extreme-youtube.github.io/Grindcraft_Hacks/INFO/❓FAQ.md" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline hover:text-blue-300 transition-colors duration-200 font-extrabold">FAQ</a>
+                    and
+                    <a href="https://extreme-youtube.github.io/Grindcraft_Hacks/INFO/⚡features.md" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline hover:text-blue-300 transition-colors duration-200 font-extrabold">Features</a> pages!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-auto py-8 w-full bg-gray-900 bg-opacity-90 text-gray-400 text-center text-lg rounded-t-3xl border-t border-gray-700 animate-slideInUp animate-delay-2200">
+        <p>© 2025 Grindcraft Hacks. All rights reserved.</p>
+        <p class="mt-2">Created with <i class="fas fa-heart text-red-500"></i> by <a href="https://www.youtube.com/@extreme-1234" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">@extreme-1234</a></p>
+    </footer>
+
+    <div id="messageBox" class="message-box"></div>
+
+    <div id="mitLicensePopupBackdrop" class="mit-popup-backdrop">
+        <div class="mit-popup-content">
+            <button id="closeMitLicenseBtn" class="mit-popup-close-btn">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3>MIT License</h3>
+            <pre>
+Copyright (c) 2025 EXTREME-youtube
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+            </pre>
+            <p class="text-center text-gray-400 text-sm">
+                For more details, visit the official <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">MIT License page</a>.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Function to show a temporary message
+        function showMessage(message, type = 'info') {
+            const msgBox = document.getElementById('messageBox');
+            msgBox.innerHTML = ''; // Clear previous content
+            msgBox.classList.remove('success', 'error'); // Remove previous type classes
+
+            let iconHtml = '';
+            if (type === 'success') {
+                iconHtml = '<i class="fas fa-check-circle"></i>'; // Checkmark icon for success
+                msgBox.classList.add('success');
+            } else if (type === 'error') {
+                iconHtml = '<i class="fas fa-times-circle"></i>'; // X icon for error
+                msgBox.classList.add('error');
+            } else {
+                iconHtml = '<i class="fas fa-info-circle"></i>'; // Info icon for general messages
+            }
+
+            msgBox.innerHTML = `${iconHtml} <span>${message}</span>`;
+            msgBox.classList.add('show');
+
+            setTimeout(() => {
+                msgBox.classList.remove('show');
+            }, 3000); // Message disappears after 3 seconds
+        }
+
+        // --- Download Button Logic ---
+        const downloadBtn = document.getElementById('downloadHacksBtn');
+        const fileUrl = 'https://raw.githubusercontent.com/EXTREME-youtube/Grindcraft_Hacks/main/Hacks.json';
+        const fileName = 'Hacks.json';
+
+        downloadBtn.addEventListener('click', async () => {
+            showMessage('Initiating download...', 'info');
+            try {
+                const response = await fetch(fileUrl);
+                if (!response.ok) {
+                    console.error(`Error fetching file: ${response.statusText}`);
+                    showMessage(`Error: Could not fetch file (${response.status})`, 'error');
+                    return;
+                }
+                const fileContent = await response.text();
+                const blob = new Blob([fileContent], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showMessage('Download started!', 'success');
+            } catch (error) {
+                console.error('Download failed:', error);
+                showMessage('Download failed. Check console for details.', 'error');
+            }
+        });
+
+        // --- MIT License Popup Logic ---
+        const openMitLicenseBtn = document.getElementById('openMitLicenseBtn');
+        const mitLicensePopupBackdrop = document.getElementById('mitLicensePopupBackdrop');
+        const closeMitLicenseBtn = document.getElementById('closeMitLicenseBtn');
+
+        // Function to open the popup
+        openMitLicenseBtn.addEventListener('click', () => {
+            mitLicensePopupBackdrop.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        });
+
+        // Function to close the popup
+        closeMitLicenseBtn.addEventListener('click', () => {
+            mitLicensePopupBackdrop.classList.remove('show');
+            document.body.style.overflow = ''; // Restore background scrolling
+        });
+
+        // Close popup if backdrop is clicked (optional, but good UX)
+        mitLicensePopupBackdrop.addEventListener('click', (event) => {
+            if (event.target === mitLicensePopupBackdrop) {
+                mitLicensePopupBackdrop.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Close popup with Escape key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && mitLicensePopupBackdrop.classList.contains('show')) {
+                mitLicensePopupBackdrop.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // --- Particle Background Logic ---
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const particleCount = 150; // Number of particles
+
+        // Adjust canvas size on load and resize
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas(); // Initial size set
+
+        // Particle class definition
+        class Particle {
+            constructor(x, y, radius, color, velocity) {
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.color = color;
+                this.velocity = velocity;
+                this.opacity = 1;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+
+            update() {
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+
+                // Fade out as particle approaches top
+                if (this.y < canvas.height / 4) {
+                    this.opacity -= 0.005;
+                }
+
+                // Reset particle if it goes off screen or fades out
+                if (this.y + this.radius < 0 || this.opacity <= 0) {
+                    this.x = Math.random() * canvas.width;
+                    this.y = canvas.height + this.radius; // Reappear from bottom
+                    this.radius = Math.random() * 2 + 1; // Random size
+                    this.opacity = 1;
+                    this.velocity.y = -(Math.random() * 0.5 + 0.1); // Random speed
+                }
+            }
+        }
+
+        // Initialize particles
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                const radius = Math.random() * 2 + 1;
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const color = `rgba(255, 255, 255, ${Math.random() * 0.8 + 0.2})`; // Semi-transparent white
+                const velocity = { x: 0, y: -(Math.random() * 0.5 + 0.1) }; // Move upwards slowly
+                particles.push(new Particle(x, y, radius, color, velocity));
+            }
+        }
+
+        // Animation loop
+        function animateParticles() {
+            requestAnimationFrame(animateParticles);
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+        }
+
+        // Hide loading overlay when page is fully loaded
+        window.addEventListener('load', () => {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            // Introduce a 3-second delay before hiding the loading overlay
+            setTimeout(() => {
+                loadingOverlay.classList.add('hidden'); // Add hidden class to fade out and hide
+                // Initialize particles and start animation after loading is complete
+                initParticles();
+                animateParticles();
+            }, 3000); // 3000 milliseconds = 3 seconds
+        });
+    </script>
 </body>
 </html>
