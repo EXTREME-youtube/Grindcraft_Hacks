@@ -3,75 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ Grindcraft Hacks</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>🔥 Grindcraft Hacks</title>
     <style>
+        /* Cool Background */
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Arial', sans-serif;
+            background: radial-gradient(circle, #0f0f0f, #1a1a1a);
+            color: #ddd;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Text Effects */
+        h1 {
+            color: #ffcc00;
+            font-size: 3em;
+            text-shadow: 0 0 20px #ffcc00;
+        }
+
+        /* Sections */
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.5);
+            animation: zoomIn 1s ease-in-out;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); }
+            to { transform: scale(1); }
+        }
+
+        /* Buttons */
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 15px 25px;
+            font-size: 1.2em;
+            font-weight: bold;
+            background: #ffcc00;
+            color: #000;
+            border-radius: 5px;
+            text-decoration: none;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+            transition: 0.3s;
+        }
+
+        .button:hover {
+            background: #e6b800;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 204, 0, 1);
+        }
+
+        /* GitHub Button */
+        .github-btn {
+            background: #333;
+            color: #fff;
+            margin-left: 10px;
+        }
+
+        .github-btn:hover {
+            background: #555;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Hover Effects */
+        .hover-glow:hover {
+            color: #ffcc00;
+            text-shadow: 0 0 10px #ffcc00;
+            transition: 0.3s ease-in-out;
+        }
+
+        .hover-expand:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+            transition: 0.3s ease-in-out;
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-gray-900 to-black min-h-screen flex items-center justify-center p-4">
+<body>
 
-    <div class="bg-gray-800 rounded-xl shadow-2xl p-8 md:p-12 max-w-3xl w-full text-center transform transition-all duration-500 ease-in-out scale-100 hover:scale-[1.01] hover:shadow-3xl">
-        <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
-            <span class="text-purple-400">⚡</span> Grindcraft Hacks
-        </h1>
+    <h1>⚡ Grindcraft Hacks</h1>
 
-        <p class="text-lg text-gray-300 mb-8 max-w-prose mx-auto">
-            Skip the grind and level up <strong class="font-semibold text-purple-400">instantly</strong> with our powerful hacks!
-        </p>
+    <div class="container">
+        <p>Skip the grind and level up **instantly** with our powerful hacks!</p>
         
-        <ul class="list-none p-0 mb-10 space-y-3">
-            <li class="flex items-center justify-center text-gray-200 text-lg">
-                <span class="text-purple-400 mr-3 text-xl">🔥</span> Instant Progress Boost
-            </li>
-            <li class="flex items-center justify-center text-gray-200 text-lg">
-                <span class="text-purple-400 mr-3 text-xl">🚀</span> Pre-Unlocked Items
-            </li>
-            <li class="flex items-center justify-center text-gray-200 text-lg">
-                <span class="text-purple-400 mr-3 text-xl">🛠️</span> Encoded Save Files
-            </li>
+        <ul>
+            <li class="hover-glow">🔥 Instant Progress Boost</li>
+            <li class="hover-glow">🚀 Pre-Unlocked Items</li>
+            <li class="hover-glow">🛠️ Encoded Save Files</li>
         </ul>
 
-        <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
-            <a href="./Hacks.json" class="bg-purple-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-purple-700 transition duration-300 ease-in-out transform hover:scale-105">
-                📥 Download Hacks
-            </a>
-            <a href="https://github.com/EXTREME-youtube/Grindcraft_Hacks" class="bg-gray-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-gray-900 transition duration-300 ease-in-out transform hover:scale-105">
-                🔗 Get That Hack from GitHub
-            </a>
+        <!-- Buttons -->
+        <a href="Hacks.json" class="button">📥 Download Hacks</a>
+        <a href="https://github.com/EXTREME-youtube/Grindcraft_Hacks" class="button github-btn">🔗 Get That Hack from GitHub</a>
+
+        <!-- New Sections -->
+        <div class="section hover-expand">
+            <h2>🔍 What We Do</h2>
+            <p>Grindcraft Hacks lets players **skip the grind** and focus on the fun.  
+            We modify game save files to unlock **resources**, **boost** progress, and **customize** gameplay.</p>
         </div>
 
-        <div class="space-y-10">
-            <div class="bg-gray-700 rounded-xl p-6 md:p-8 shadow-md transition duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg">
-                <h2 class="text-3xl font-bold text-white mb-4">🔍 What We Do</h2>
-                <p class="text-gray-300 leading-relaxed">
-                    Grindcraft Hacks lets players <strong class="font-semibold text-purple-400">skip the grind</strong> and focus on the fun. 
-                    We modify game save files to unlock <strong class="font-semibold text-purple-400">resources</strong>, 
-                    <strong class="font-semibold text-purple-400">boost</strong> progress, and 
-                    <strong class="font-semibold text-purple-400">customize</strong> gameplay.
-                </p>
-            </div>
-
-            <div class="bg-gray-700 rounded-xl p-6 md:p-8 shadow-md transition duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg">
-                <h2 class="text-3xl font-bold text-white mb-4">🚀 How to Use the Hack</h2>
-                <p class="text-gray-300 mb-6 leading-relaxed">Follow these steps to get started:</p>
-                <ol class="list-decimal list-inside text-left text-gray-300 space-y-3 max-w-md mx-auto">
-                    <li><strong class="font-semibold text-purple-400">Download</strong> the Hacks.json file.</li>
-                    <li>Open Grindcraft and go to <strong class="font-semibold text-purple-400">Settings</strong>.</li>
-                    <li>Select <strong class="font-semibold text-purple-400">Load Game</strong> and choose Hacks.json.</li>
-                    <li>Enjoy <strong class="font-semibold text-purple-400">instant upgrades</strong> and enhanced gameplay!</li>
-                </ol>
-            </div>
+        <div class="section hover-expand">
+            <h2>🚀 How to Use the Hack</h2>
+            <p>Follow these steps to get started:</p>
+            <ol>
+                <li class="hover-glow">📥 **Download** the Hacks.json file.</li>
+                <li class="hover-glow">⚙️ Open Grindcraft and go to **Settings**.</li>
+                <li class="hover-glow">💾 Select **Load Game** and choose Hacks.json.</li>
+                <li class="hover-glow">🎮 Enjoy **instant upgrades** and enhanced gameplay!</li>
+            </ol>
         </div>
 
-        <p class="text-gray-400 mt-10 text-md">
-            💡 Want to learn more? Check out the 
-            <a href="./INFO/FAQ.html" class="text-purple-400 hover:text-purple-600 font-semibold transition duration-200">FAQ</a> and 
-            <a href="./INFO/FEATURES.html" class="text-purple-400 hover:text-purple-600 font-semibold transition duration-200">Features</a> pages!
-        </p>
+        <p>💡 Want to learn more? Check out the <a href="FAQ.html">FAQ</a> and <a href="FEATURES.html">Features</a> pages!</p>
     </div>
 
 </body>
